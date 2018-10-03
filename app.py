@@ -78,7 +78,7 @@ def allowed_file(filename):
 
 @app.route('/faceService/addFaces', methods=['POST'])
 @app.route('/faceService/checkPerson', methods=['POST'])
-@app.route('/', methods=['GET'])
+@app.route('/faceService/', methods=['GET'])
 def upload():
     # 如果不是POST，则返回URL
     if request.method == 'POST':

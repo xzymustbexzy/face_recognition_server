@@ -3,7 +3,7 @@ import json
 import base64
 import datetime
 
-ROOT_URL = 'http://0.0.0.0:5050/faceService/'
+ROOT_URL = 'http://localhost:5050/'
 
 
 def post(url, data):
@@ -18,8 +18,8 @@ def get(url):
     res = res.read()
     return res
 
-def jsonify(data):
-    data = json.dumps(data).encode(encoding='utf-8')
+def stringnify(data):
+    data = parse.urlencode(data).encode('utf-8')
     return data
 
 def read_img(img_path):
@@ -36,6 +36,7 @@ def generate_data(uid, img_encoding):
     data['channel'] = '测试途径'
     data['login_time'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     data['img'] = img_encoding
+    data = stringnify(data)
     return data
 
 
@@ -56,8 +57,11 @@ def check_person(uid, img_path):
 
 
 '''测试代码'''
-def simple_test():
+def test_get():
     print(get(url=ROOT_URL))
 
+def test_login():
+    print(add_face('obama', './obama.jpg'))
+
 if __name__ == '__main__':
-    simple_test()
+    test_login()
