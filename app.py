@@ -9,6 +9,7 @@ import face_recognition
 from flask import Flask, jsonify, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 import json, base64
+import datetime
 
 # 合法的图像文件后缀
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -83,27 +84,38 @@ def upload():
     # 如果不是POST，则返回URL
     if request.method == 'POST':
 
-        data = json.loads(request.form.get('data'))
+        methodName = request.form.get('method')
+        uid = request.form.get('uid')
+        uid_type = request.form.get('uid_type')
+        name = request.form.get('name')
+        channel = request.form.get('channel')
+        img = request.form.get('img')
 
-        if 'methodName' not in data:
+        if methodName is None:
             splited_url = request.base_url.split('/')
-            data['method'] = splited_url[-1]
-        if data['methodName'] == 'setParameters':
+            methodName = splited_url[-1]
+        if methodName == 'setParameters':
             return '''
                 set setparameters
             '''
 
-        if ('cId' not in data) or ('img' not in data):
+        if (uid is None) or (img is None):
             return redirect(request.url)
 
 
-        image = base64.b64decode(data['img'])
-        user_id = data['cId']
+        image = base64.b64decode(img)
+        image_root = 'image/'
+        image_name =  uid + '-' + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '.jpg'
+        image_path = image_root + image_name
+        image_save = open(image_path, 'wb')
+        image_save.write(image)
 
-        if data['methodName'] == 'addFaces':
-            login_faces_in_image(user_id, image)
-        if data['methodName'] == 'checkPerson':
-            varify_faces_in_image(user_id, file)
+        user_id = uid
+
+        if methodName == 'addFaces':
+            return login_faces_in_image(user_id, image_path)
+        if methodName == 'checkPerson':
+            return varify_faces_in_image(user_id, image_path)
 
 
 
@@ -186,7 +198,9 @@ def varify_faces_in_image(user_id, img):
     }
     return jsonify(result)
 
-def login_faces_in_image(user_id, img):
+def login_faces_in_image(user_id, image_path):
+
+    img = face_recognition.load_image_file(image_path)
     user_face_encoding = face_recognition.face_encodings(img)[0]
     db.session.add(Face(user_id, user_face_encoding))
     db.session.commit()

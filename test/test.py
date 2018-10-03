@@ -3,7 +3,10 @@ import json
 import base64
 import datetime
 
-ROOT_URL = 'http://localhost:5050/'
+HOST = 'localhost'
+PORT = '5050'
+FILE = '/faceService/'
+ROOT_URL = 'http://' + HOST + ':' + PORT + FILE
 
 
 def post(url, data):
@@ -42,7 +45,7 @@ def generate_data(uid, img_encoding):
 
 def add_face(uid, img_path):
     img_encoding = read_img(img_path)
-    url = ROOT_URL + 'addFace'
+    url = ROOT_URL + 'addFaces'
     data = generate_data(uid, img_encoding)
     res = post(url, data)
     return res
