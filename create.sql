@@ -7,7 +7,7 @@ CREATE TABLE login_face
     uid_type VARCHAR(16) NOT NULL DEFAULT '',
     name VARCHAR(15) NOT NULL DEFAULT '',
     channel VARCHAR(16) NOT NULL DEFAULT '',
-    login_time TIMESTAMP NOT NULL,
+    login_time VARCHAR(19) NOT NULL,
     feature VARCHAR(4096) NOT NULL DEFAULT '',
     img_path VARCHAR(4096) NOT NULL DEFAULT ''
 );
@@ -16,9 +16,11 @@ CREATE TABLE check_log
 (
     num INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
     uid VARCHAR(32) NOT NULL,
-    id_type VARCHAR(16) NOT NULL DEFAULT '',
+    uid_type VARCHAR(16) NOT NULL DEFAULT '',
     name VARCHAR(15) NOT NULL DEFAULT '',
     channel VARCHAR(16) NOT NULL DEFAULT '',
-    check_time TIMESTAMP NOT NULL,
-    img_path VARCHAR(4096) NOT NULL DEFAULT ''
+    check_time VARCHAR(19) NOT NULL,
+    img_path VARCHAR(4096) NOT NULL DEFAULT '',
+    result TINYINT NOT NULL DEFAULT 0,
+    sim FLOAT NOT NULL DEFAULT 0
 );

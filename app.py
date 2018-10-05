@@ -8,13 +8,15 @@
 import face_recognition
 from flask import Flask, jsonify, request, redirect
 from flask_sqlalchemy import SQLAlchemy
-import json, base64
+import base64
 import datetime
 
 # 合法的图像文件后缀
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 NUMBER_OF_FEATURE = 128
+
+tolerance = 0.6
 
 app = Flask(__name__)
 # config用于配置数据库属性
@@ -26,24 +28,27 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # 数据库的一个表在flask中对应一个类
-class login_face(db.Model):
+class Face(db.Model):
     # __tablename__用于定义表名
     __tablename__ = 'login_face'
     # 接下去的变量是字段名，用db.Column来定义字段属性
-    id = db.Column(db.String(32), primary_key=True)
-    id_type = db.Column(db.String(16))
+    uid = db.Column(db.String(32), primary_key=True)
+    uid_type = db.Column(db.String(16))
     name = db.Column(db.String(15))
     channel = db.Column(db.String(16))
-    upload_date = db.Column(db.Time)
+    login_time = db.Column(db.String(19))
     feature = db.Column(db.String(4096))
+    img_path = db.Column(db.String(4096))
     # 构造方法
-    def __init__(self, id, id_type, name, channel, upload_date, feature_array):
-        self.id = id
-        self.id_type = id_type
+    def __init__(self, uid, uid_type, name, channel, login_time, feature_array, img_path):
+        self.uid = uid
+        self.uid_type = uid_type
         self.name = name
         self.channel = channel
-        self.upload_date = upload_date
+        self.login_time = login_time
         self.feature = self.to_feature_string(feature_array)
+        self.img_path = img_path
+
 
     def to_feature_string(self, feature_array):
         feature_string = ''
@@ -53,21 +58,28 @@ class login_face(db.Model):
         return feature_string
 
 
-class varify_record(db.Model):
-    __tablename__ = 'varify_record'
+class Log(db.Model):
+    __tablename__ = 'check_log'
 
-    id = db.Column(db.String(32), primary_key=True)
-    id_type = db.Column(db.String(16))
+    num = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    uid = db.Column(db.String(32))
+    uid_type = db.Column(db.String(16))
     name = db.Column(db.String(15))
     channel = db.Column(db.String(16))
-    upload_date = db.Column(db.Time)
+    check_time = db.Column(db.String(19))
+    img_path = db.Column(db.String(4096))
+    result = db.Column(db.Boolean)
+    sim = db.Column(db.Float)
     # 构造方法
-    def __init__(self, id, id_type, name, channel, upload_date, feature_array):
-        self.id = id
-        self.id_type = id_type
+    def __init__(self, uid, uid_type, name, channel, check_time, img_path, sim, result):
+        self.uid = uid
+        self.uid_type = uid_type
         self.name = name
         self.channel = channel
-        self.upload_date = upload_date
+        self.check_time = check_time
+        self.img_path = img_path
+        self.sim = sim
+        self.result = result
 
 
 
@@ -77,10 +89,27 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+messages = {
+    0:'Success',
+    1:'Request mothed error!',
+    2:'Can not find face'
+}
+
+def com_ret(code):
+    result = {
+        'code':code,
+        'message':messages[code]
+    }
+    return result
+
 @app.route('/faceService/addFaces', methods=['POST'])
 @app.route('/faceService/checkPerson', methods=['POST'])
 @app.route('/faceService/', methods=['GET'])
 def upload():
+
+    extra_ret = {}
+    code = 0
+
     # 如果不是POST，则返回URL
     if request.method == 'POST':
 
@@ -90,6 +119,10 @@ def upload():
         name = request.form.get('name')
         channel = request.form.get('channel')
         img = request.form.get('img')
+
+        print('uid_type=', uid_type)
+        print('name=', name)
+        print('channel=', channel)
 
         if methodName is None:
             splited_url = request.base_url.split('/')
@@ -102,10 +135,10 @@ def upload():
         if (uid is None) or (img is None):
             return redirect(request.url)
 
-
         image = base64.b64decode(img)
         image_root = 'image/'
-        image_name =  uid + '-' + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '.jpg'
+        upload_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        image_name = uid + '-' + upload_time + '.jpg'
         image_path = image_root + image_name
         image_save = open(image_path, 'wb')
         image_save.write(image)
@@ -113,102 +146,60 @@ def upload():
         user_id = uid
 
         if methodName == 'addFaces':
-            return login_faces_in_image(user_id, image_path)
+            code = login_faces_in_image(user_id, uid_type, name, channel, image_path, upload_time)
         if methodName == 'checkPerson':
-            return varify_faces_in_image(user_id, image_path)
+            code, extra_ret = varify_faces_in_image(user_id, uid_type, name, channel, image_path, upload_time)
 
 
 
-    # 如果请求类型为GET，则返回主页面
-    return '''
-    <!doctype html>
-    <title>Is this a picture of Obama?</title>
-    <h1>Sign up for your face and varify via your identification!</h1>
-    <form name="form" method="POST" enctype="multipart/form-data">
-      <input type="file" name="file">
-      <input type="text" name="user_id">
-      <input type="button" name="login"  value="Login">
-      <input type="button" name="upload"  value="Varify">
-    </form>
-    <script>
-        alert("hello world");
-      $("input[name="login"]").click(function() {
+    else:
+        code = 1
 
-        $.ajax(
-            type:"POST",
-            url:"http://0.0.0.0:5050/faceService/addFaces",
-            contentType:"application/json;charset=utf-8"
-            data:JSON.stringify(GetJsonData()),
-            dataType:"json",
-            success: function(message) {
-                alert("success");
-            }
-            error: function(message) {
-                alert("failed");
-            }
-        );
-        }
-    )
-
-    function GetJsonData() {
-
-        var json = {
-            "methodName":"setParameters",
-            "cId":"330283199710244712",
-            "cName":"xiaoziyang",
-            "cType":"gonghao",
-            "img":"",
-            "channel":"pc"
-        }
-        return json;
-    }
-    </script>
-
-    '''
+    result = dict(com_ret(code), **extra_ret)
+    return jsonify(result)
 
 
-def varify_faces_in_image(user_id, img):
+def varify_faces_in_image(user_id, uid_type, name, channel, image_path, check_time):
     # sql = 'select feature from face_record where id = \'' + user_id + '\''
     # item = list()
     # item = db.session.execute(sql)
     # unknown_face_encodings = item[0].feature.split('|')
-    known_face_encodings = Face.query.filter_by(id = user_id).one().feature.split('|')
+    known_face_encodings = Face.query.filter_by(uid=user_id).one().feature.split('|')
     for i in range(NUMBER_OF_FEATURE):
         known_face_encodings[i] = float(known_face_encodings[i])
 
     # 对加载的图片进行特征提取
+    img = face_recognition.load_image_file(image_path)
     unknown_face_encodings = face_recognition.face_encodings(img)
 
-    # face_found是一个bool值，表示是否从图片中找到了人脸，没有找到人脸，编码长度为0
-    face_found = False
-    # passed表示是否通过人脸验证
+
+    code = 0
+    data = {'sim':0, 'simResult':'0', 'imgFlowNo':'0'}
+
     passed = False
 
     if len(unknown_face_encodings) > 0:
-        face_found = True
+        face_distance = face_recognition.face_distance([known_face_encodings], unknown_face_encodings[0])[0]
         # 对比上传的图片和数据库内的图片是否相同
-        match_results = face_recognition.compare_faces([known_face_encodings], unknown_face_encodings[0])
-        if match_results[0]:
-            passed = True
+        data['sim'] = 1 / face_distance
+        data['simResult'] = '1' if face_distance < tolerance else '0'
+        passed = True if face_distance < tolerance else False
+    else:
+        code = 2
 
-    # 将结果用json格式返回
-    result = {
-        "face_found_in_image": face_found,
-        "is_picture_of_obama": passed
-    }
-    return jsonify(result)
 
-def login_faces_in_image(user_id, image_path):
+    db.session.add(Log(uid=user_id, uid_type=uid_type, name=name, channel=channel, check_time=check_time, img_path=image_path, sim=data['sim'], result=passed))
+    db.session.commit()
+
+    return code, {'data': data}
+
+def login_faces_in_image(user_id, uid_type, name, channel, image_path, login_time):
 
     img = face_recognition.load_image_file(image_path)
     user_face_encoding = face_recognition.face_encodings(img)[0]
-    db.session.add(Face(user_id, user_face_encoding))
+    db.session.add(Face(uid=user_id, uid_type=uid_type, name=name, channel=channel, feature_array=user_face_encoding, login_time=login_time, img_path=image_path))
     db.session.commit()
-    print("login successfully")
-    return '''
-    <!doctype html>
-    <head>Login successfully!</head>
-    '''
+    return 0
 
 
 if __name__ == "__main__":

@@ -34,9 +34,9 @@ def read_img(img_path):
 def generate_data(uid, img_encoding):
     data = {}
     data['uid'] = uid
-    data['uid_type'] = '工号'
+    data['uid_type'] = 'work id'
     data['name'] = 'test' + uid
-    data['channel'] = '测试途径'
+    data['channel'] = 'for test'
     data['login_time'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     data['img'] = img_encoding
     data = stringnify(data)
@@ -64,7 +64,10 @@ def test_get():
     print(get(url=ROOT_URL))
 
 def test_login():
-    print(add_face('obama', './obama.jpg'))
+    print(add_face('trump', 'trump.jpg'))
+
+def test_check():
+    print(check_person('trump', 'trump2.jpg'))
 
 if __name__ == '__main__':
-    test_login()
+    test_check()
