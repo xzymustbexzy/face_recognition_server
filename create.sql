@@ -1,4 +1,4 @@
-CREATE DATABASE faceDB;
+CREATE DATABASE faceDB CHARACTER SET utf8;
 use faceDB
 
 CREATE TABLE login_face
