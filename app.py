@@ -32,13 +32,13 @@ class Face(db.Model):
     # __tablename__用于定义表名
     __tablename__ = 'login_face'
     # 接下去的变量是字段名，用db.Column来定义字段属性
-    uid = db.Column(db.String(32), primary_key=True)
-    uid_type = db.Column(db.String(16))
-    name = db.Column(db.String(15))
-    channel = db.Column(db.String(16))
-    login_time = db.Column(db.String(19))
-    feature = db.Column(db.String(4096))
-    img_path = db.Column(db.String(4096))
+    uid = db.Column(db.String(32), primary_key=True)#用户id
+    uid_type = db.Column(db.String(16))#用户id的类型
+    name = db.Column(db.String(15))#用户名
+    channel = db.Column(db.String(16))#提交渠道
+    login_time = db.Column(db.String(19))#注册时间
+    feature = db.Column(db.String(4096))#特征字串
+    img_path = db.Column(db.String(4096))#图片存放路径
     # 构造方法
     def __init__(self, uid, uid_type, name, channel, login_time, feature_array, img_path):
         self.uid = uid
@@ -50,7 +50,7 @@ class Face(db.Model):
         self.img_path = img_path
 
 
-    def to_feature_string(self, feature_array):
+def to_feature_string(self, feature_array):#将特征向量转化为特征字串
         feature_string = ''
         for i in range(NUMBER_OF_FEATURE - 1):
             feature_string += (str(feature_array[i]) + '|')
@@ -61,15 +61,15 @@ class Face(db.Model):
 class Log(db.Model):
     __tablename__ = 'check_log'
 
-    num = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    uid = db.Column(db.String(32))
-    uid_type = db.Column(db.String(16))
-    name = db.Column(db.String(15))
-    channel = db.Column(db.String(16))
-    check_time = db.Column(db.String(19))
-    img_path = db.Column(db.String(4096))
-    result = db.Column(db.Boolean)
-    sim = db.Column(db.Float)
+    num = db.Column(db.Integer, primary_key=True, autoincrement=True)#图片流水号
+    uid = db.Column(db.String(32))#用户id
+    uid_type = db.Column(db.String(16))#用户id的类型
+    name = db.Column(db.String(15))#用户名
+    channel = db.Column(db.String(16))#提交渠道
+    check_time = db.Column(db.String(19))#验证时间
+    img_path = db.Column(db.String(4096))#图片存放路径
+    result = db.Column(db.Boolean)#验证结果
+    sim = db.Column(db.Float)#验证相似度
     # 构造方法
     def __init__(self, uid, uid_type, name, channel, check_time, img_path, sim, result):
         self.uid = uid
@@ -88,7 +88,7 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-
+#返回的code所对应的消息
 messages = {
     0:'Success',
     1:'Request mothed error!',
@@ -135,6 +135,7 @@ def upload():
         if (uid is None) or (img is None):
             return redirect(request.url)
 
+        #对图片进行解码并保存
         image = base64.b64decode(img)
         image_root = 'image/'
         upload_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -201,6 +202,6 @@ def login_faces_in_image(user_id, uid_type, name, channel, image_path, login_tim
     db.session.commit()
     return 0
 
-
+#运行的端口号为5050
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5050, debug=True)
