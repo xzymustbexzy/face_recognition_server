@@ -20,12 +20,6 @@ with open('server/parameters.json', 'r') as parameters:
 NUMBER_OF_FEATURE = parameters_dic['NUMBER_OF_FEATURE']
 tolerance = parameters_dic['tolerance']
 
-print(NUMBER_OF_FEATURE)
-print(tolerance)
-print(parameters_dic['NUMBER_OF_FEATURE'])
-print(parameters_dic['tolerance'])
-
-
 #创建数据库对象
 db = SQLAlchemy(app)
 
