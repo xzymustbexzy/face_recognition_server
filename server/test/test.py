@@ -64,10 +64,10 @@ def test_get():
     print(get(url=ROOT_URL))
 
 def test_login():
-    print(add_face('obama', 'obama.jpg'))
+    print(add_face('trump', 'trump.jpg'))
 
 def test_check():
-    print(check_person('obama', 'obama2.jpg'))
+    print(check_person('trump', 'trump3.jpg'))
 
 if __name__ == '__main__':
     test_check()

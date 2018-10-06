@@ -1,8 +1,8 @@
 from server import app, db
 from server.model.Face import Face
 from server.model.Log import Log
-import sqlalchemy
 from server.exceptions import *
+import face_recognition
 from flask import Flask, jsonify, request, redirect
 import base64
 import datetime
@@ -62,7 +62,7 @@ def add_face():
 
 # 接收到人脸验证请求
 @app.route('/faceService/checkPerson', methods=['POST'])
-def check_person(): 
+def check_person():
     code = Success.code
     message = Success.msg
     extra_ret = {}
@@ -92,8 +92,11 @@ def varify_faces_in_image(user_id, uid_type, name, channel, image_path, check_ti
     unknown_face_encodings = face_recognition.face_encodings(img)
 
     # 读取数据库中对应人脸的特征
-    # 需要加exception
-    known_face_encodings = Face.query.filter_by(uid=user_id).one().feature.split('|')
+    try:
+        known_face_encodings = Face.query.filter_by(uid=user_id).one().feature.split('|')
+    except NoResultFound:
+        return NoSuchIdException.code, {}
+
     for i in range(NUMBER_OF_FEATURE):
         known_face_encodings[i] = float(known_face_encodings[i])
 
@@ -124,6 +127,6 @@ def login_faces_in_image(user_id, uid_type, name, channel, image_path, login_tim
     try:
         db.session.add(Face(uid=user_id, uid_type=uid_type, name=name, channel=channel, feature_array=user_face_encoding, login_time=login_time, img_path=image_path))
         db.session.commit()
-    except LoginIdExsistsException as e:
-        return e.code
+    except IntegrityError:
+        return LoginIdExsistsException.code
     return Success.code

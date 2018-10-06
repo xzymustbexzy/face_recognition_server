@@ -1,4 +1,5 @@
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm.exc import NoResultFound
 
 class Success(object):
     msg = '操作成功'
@@ -69,19 +70,15 @@ class CannotFoundFaceException(BaseException):
 
 
 # 人脸还没有注册过
-class NoSuchIdException(BaseException):
+class NoSuchIdException(object):
     msg = '您还没有注册过人脸！'
     code = 9
-    def __str__(self):
-        return self.msg
 
 
 # 注册时id已经注册过人脸了
-class LoginIdExsistsException(IntegrityError):
+class LoginIdExsistsException(object):
     msg = '您的账号已经注册过了！'
     code = 10
-    def __str__(self):
-        return self.msg
 
 
 # 发生未知错误
