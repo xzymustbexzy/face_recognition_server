@@ -6,7 +6,7 @@ import face_recognition
 from flask import Flask, jsonify, request, redirect
 import base64
 import datetime
-from server import NUMBER_OF_FEATURE, tolerance
+from server import NUMBER_OF_FEATURE, tolerance, image_root
 
 
 
@@ -36,7 +36,6 @@ def get_data():
 def decode_and_save_img(uid, img):
     #对图片进行解码并保存
     image = base64.b64decode(img)
-    image_root = 'server/image/'
     upload_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     image_name = uid + '-' + upload_time + '.jpg'
     image_path = image_root + image_name
@@ -79,10 +78,17 @@ def check_person():
 
 
 # 接收到修改参数请求
-@app.route('/faceService/serParameters', methods=['POST'])
+@app.route('/faceService/setParameters', methods=['POST'])
 def set_parameters():
     return '''
         set parameters
+        '''
+
+# 接收到查看后台数据请求
+@app.route('/faceService/accessData', methods=['GET'])
+def access_data():
+    return '''
+        get data
         '''
 
 # 人脸验证函数
