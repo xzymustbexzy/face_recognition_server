@@ -5,7 +5,7 @@
 # 然后安装flask用于编写servlet
 # 读写mysql数据库用flask_sqlalchemy
 
-from server import app
+from faceService import app
 
 # 服务器为localhost，运行的端口号为5050
 if __name__ == "__main__":
