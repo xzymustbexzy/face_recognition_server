@@ -1,73 +1,15 @@
-from urllib import parse, request
-import json
-import base64
-import datetime
+from API import add_face, check_person, parse_result
+import os
 
-HOST = 'localhost'
-PORT = '5050'
-FILE = '/faceService/'
-ROOT_URL = 'http://' + HOST + ':' + PORT + FILE
+def add_all_faces(file_folder):
+    file_folder_path = os.getcwd() + '/faceService/test/' + file_folder + '/'
+    image_name_list = os.listdir(file_folder_path)
+    uid_list = [os.path.splitext(fullname)[0] for fullname in image_name_list]
+    for uid in uid_list:
+        res = add_face(uid, image_name_list)
+        code = parse_result(res, 'code')
+        assert (code == 0) # 断言添加成功
 
-
-def post(url, data):
-    req = request.Request(url=url, data=data)
-    res = request.urlopen(req)
-    res = res.read()
-    return res
-
-def get(url):
-    req = request.Request(url=url)
-    res = request.urlopen(req)
-    res = res.read()
-    return res
-
-def stringnify(data):
-    data = parse.urlencode(data).encode('utf-8')
-    return data
-
-def read_img(img_path):
-    img = open(img_path, "rb")
-    img_encoding = base64.b64encode(img.read())
-    img.close()
-    return img_encoding
-
-def generate_data(uid, img_encoding):
-    data = {}
-    data['uid'] = uid
-    data['uid_type'] = 'work id'
-    data['name'] = 'test' + uid
-    data['channel'] = 'for test'
-    data['login_time'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    data['img'] = img_encoding
-    data = stringnify(data)
-    return data
-
-
-def add_face(uid, img_path):
-    img_encoding = read_img(img_path)
-    url = ROOT_URL + 'addFaces'
-    data = generate_data(uid, img_encoding)
-    res = post(url, data)
-    return res
-
-def check_person(uid, img_path):
-    img_encoding = read_img(img_path)
-    url = ROOT_URL + 'checkPerson'
-    data = generate_data(uid, img_encoding)
-    res = post(url, data)
-    return res
-
-
-
-'''测试代码'''
-def test_get():
-    print(get(url=ROOT_URL))
-
-def test_login():
-    print(add_face('trump', 'trump.jpg'))
-
-def test_check():
-    print(check_person('trump', 'trump3.jpg'))
 
 if __name__ == '__main__':
-    test_check()
+    add_all_faces('login_image') #批量添加人脸

@@ -1,17 +1,8 @@
-import face_recognition
-import base64
-
-img_open = open('obama.jpg', 'rb')
-
-img_open_fuben = open('obama_fuben.jpg', 'wb')
-img_open_fuben.write(img_open.read())
-
-img_load = face_recognition.load_image_file('obama.jpg')
-
-# print(img_open.read())
-# print(img_load)
-
-
-
-img_open.close()
-img_open_fuben.close()
+import os
+root = '/'
+file_folder = 'login_image'
+file_folder_path = os.getcwd() + '/faceService/test/' + file_folder + '/'
+image_name_list = os.listdir(file_folder_path)
+uid_list = []
+uid_list = [fullname.split('.')[0] for fullname in image_name_list]
+print(uid_list)
