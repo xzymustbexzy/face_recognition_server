@@ -1,105 +1,54 @@
+<html>
+    <head>
+        <script src="../static/js/jquery-3.3.1.min.js"></script>
+        <script src="../static/js/admin.js"></script>
+        <link rel="stylesheet" href="../static/bootstrap-4.0.0-dist/css/bootstrap.min.css">
+        <title>管理系统</title>
+    </head>
+    <body>
+        <form>
+            <nav class="navbar navbar-light bg-light flex-md-nowrap p-0">           
+                <a href="#" class="navbar-brand col-sm-3 col-md-2 mr-0" style="color:orange;font-size:22px;">后台管理</a>
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="搜索">
+                <input class="btn btn-outline-danger my-2 my-sm-0" type="submit" value="注销">
+            </nav>
+        </form>
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="srtp group">
 
-    <title>后台管理页面</title>
+        <div class="container-fluid">
+            <div class="row">
+                <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                    <div class="sidebar-sticky">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link" href="javascript:setParameters()">参数列表</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="javascript:loginedFace()">注册数据</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="javascript:chekcLog()">验证记录</a>
+                            </li class="nav-item">
+                            <li class="nav-item">
+                                <a class="nav-link" href="javascript:image()">后台照片</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <main id="main_body" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                    <div>
+                        <h id="main_title">欢迎您登陆管理系统</h>
+                        <div>
+                            <ul id="info_list">
+                                你好呀，管理员！
+                            </ul>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
 
-    <!-- Bootstrap core CSS -->
-    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="../static/css/dashboard.css" rel="stylesheet">
-  </head>
-
-  <body>
-    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#" style="color:orange;font-size:22px;">后台管理</a>
-      <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
-      <ul class="navbar-nav px-3">
-        <li class="nav-item text-nowrap">
-          <a class="nav-link" href="#">注销</a>
-        </li>
-      </ul>
-    </nav>
-
-    <div class="container-fluid">
-      <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-          <div class="sidebar-sticky">
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <a class="nav-link" style="active" id="home" href="#">
-                  <span data-feather="home"></span>
-                   <span class="sr-only">lalala</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="info" href="#">
-                  <span data-feather="user"></span>
-                  个人信息
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="profile" href="#">
-                  <span data-feather="aperture"></span>
-                  自画像
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="tc_profile" href="#">
-                  <span data-feather="bar-chart-2"></span>
-                  教师画像
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="course_profile" href="#">
-                  <span data-feather="book-open"></span>
-                  课程画像
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="major_profile" href="#">
-                  <span data-feather="layers"></span>
-                  专业画像
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="std_profile" href="#">
-                  <span data-feather="users"></span>
-                  同学画像
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="message" href="#">
-                  <span data-feather="message-circle"></span>
-                  消息
-                </a>
-              </li>
-            </ul>
-          </div>
-        </nav>
-
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main_body">
-        </main>
-      </div>
-    </div>
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-    <script src="../../assets/js/vendor/popper.min.js"></script>
-    <script src="../../dist/js/bootstrap.min.js"></script>
-
-    <!-- Icons -->
-    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-    <script>
-      feather.replace()
-    </script>
-  </body>
+    </body>
 </html>
