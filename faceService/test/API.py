@@ -59,9 +59,12 @@ def check_person(uid, img_path):
     return res
 
 # 解析返回的json字串
-def parse_result(result_str, field_name):
+def parse_result(result_str, field_name, inside_data=False):
     result_dic = json.loads(result_str)
-    return result_dic[field_name]
+    if not inside_data:
+        return result_dic[field_name]
+    else
+        return result_dic['data'][field_name]
 
 
 '''测试代码
