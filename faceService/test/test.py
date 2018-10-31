@@ -21,11 +21,10 @@ def rotational_test(logined_uid_list, file_folder):
     for image in image_name_list: # 文件夹下所有图片
         for logined_uid in logined_uid_list:
             res = check_person(logined_uid, file_folder + image)
-            code = parse_result(res, 'code', inside_data=True)
-            print(json.loads(res))
+            code = parse_result(res, 'code')
             assert (code == 0) # 断言认证成功
             print('提交成功，开始验证。。。。')
-            simResult = parse_result(res, 'simResult')
+            simResult = parse_result(res, 'simResult', inside_data=True)
             if (image.split('_')[0] == logined_uid):
                 assert (simResult == '1')
             else:

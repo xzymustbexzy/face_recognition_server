@@ -63,7 +63,7 @@ def parse_result(result_str, field_name, inside_data=False):
     result_dic = json.loads(result_str)
     if not inside_data:
         return result_dic[field_name]
-    else
+    else:
         return result_dic['data'][field_name]
 
 
