@@ -9,6 +9,7 @@ def batch_login(file_folder):
         res = add_face(uid_list[i], file_folder + image_name_list[i])
         code = parse_result(res, 'code')
         assert (code == 0) # 断言添加成功
+        print('成功添加用户' + uid_list[i])
     print('已成功添加' + str(len(uid_list)) + '个用户！')
     return uid_list
 
@@ -21,11 +22,13 @@ def rotational_test(logined_uid_list, file_folder):
             res = check_person(logined_uid, file_folder + image)
             code = parse_result(res, 'code')
             assert (code == 0) # 断言认证成功
+            print('提交成功，开始验证。。。。')
             simResult = parse_result(res, 'simResult')
             if (image.split('_')[0] == logined_uid)
                 assert (simResult == '1')
             else:
                 assert (simResult == '0')
+            print('通过测试用例' + image)
 
     print('循环测试通过！'')
 
