@@ -1,5 +1,6 @@
 from API import add_face, check_person, parse_result
 import os
+import json
 
 def batch_login(file_folder):
     file_folder_path = os.getcwd() + '/' + file_folder
@@ -21,16 +22,17 @@ def rotational_test(logined_uid_list, file_folder):
         for logined_uid in logined_uid_list:
             res = check_person(logined_uid, file_folder + image)
             code = parse_result(res, 'code')
+            print(json.loads(res))
             assert (code == 0) # 断言认证成功
             print('提交成功，开始验证。。。。')
             simResult = parse_result(res, 'simResult')
-            if (image.split('_')[0] == logined_uid)
+            if (image.split('_')[0] == logined_uid):
                 assert (simResult == '1')
             else:
                 assert (simResult == '0')
             print('通过测试用例' + image)
 
-    print('循环测试通过！'')
+    print('循环测试通过！')
 
 if __name__ == '__main__':
     logined_uid_test = batch_login('login_face/') #批量添加人脸

@@ -65,6 +65,7 @@ def parse_result(result_str, field_name):
 
 
 '''测试代码
+'''
 def test_get():
     print(get(url=ROOT_URL))
 
@@ -72,8 +73,7 @@ def test_login():
     print(add_face('trump', 'trump.jpg'))
 
 def test_check():
-    print(check_person('trump', 'trump3.jpg'))
+    print(check_person('trump', 'check_face/trump_3.jpg'))
 
 if __name__ == '__main__':
     test_check()
-'''
