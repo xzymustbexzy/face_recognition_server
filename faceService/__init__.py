@@ -18,9 +18,10 @@ with open('faceService/parameters.json', 'r') as parameters:
     parameters_dic = json.load(parameters)
 
 '''parameters variable'''
-NUMBER_OF_FEATURE = parameters_dic['number_of_feature']
+NUMBER_OF_FEATURE = 128 #特征维度个数，是个常数，由算法决定
 tolerance = parameters_dic['tolerance']
-image_root = parameters_dic['image_root']
+login_image_root = parameters_dic['login_image_root']
+check_image_root = parameters_dic['check_image_root']
 
 #创建数据库对象
 db = SQLAlchemy(app)

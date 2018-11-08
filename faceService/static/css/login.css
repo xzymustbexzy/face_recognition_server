@@ -1,6 +1,6 @@
 
 body {
-    background-image: url("../../background/4.jpg");
+    background-image: url("{{url_for('static', filename='background/4.jpg')}}");
     background-position: center 0;
     background-repeat: no-repeat;
     background-attachment: fixed;

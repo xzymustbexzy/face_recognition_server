@@ -1,0 +1,12 @@
+{% extends 'home.html' %}
+
+{% block main %}
+
+<meta charset="UTF-8">
+    <form method="POST">
+        {% for parameter in parameters %}
+        <h>{{parameter.name}}:</h><input type="text" value="{{parameter.value}}"></input><br/>
+        {% endfor %}
+        <input type="submit" value="确认修改">
+    </form>    
+{% endblock %}

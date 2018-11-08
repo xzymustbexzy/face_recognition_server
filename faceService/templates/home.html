@@ -1,8 +1,8 @@
 <html>
     <head>
-        <script src="../static/js/jquery-3.3.1.min.js"></script>
-        <script src="../static/js/admin.js"></script>
-        <link rel="stylesheet" href="../static/bootstrap-4.0.0-dist/css/bootstrap.min.css">
+        <script src="{{url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
+        <script src="{{url_for('static', filename='js/admin.js')}}"></script>
+        <link rel="stylesheet" href="{{url_for('static', filename='bootstrap-4.0.0-dist/css/bootstrap.min.css')}}">
         <title>管理系统</title>
     </head>
     <body>
@@ -25,7 +25,7 @@
                                 <a class="nav-link" href="javascript:setParameters()">参数列表</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="javascript:loginedFace()">注册数据</a>
+                                <a class="nav-link" href="javascript:loginedFace()">注册人脸</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="javascript:chekcLog()">验证记录</a>
@@ -38,12 +38,9 @@
                 </nav>
                 <main id="main_body" class="col-md-9 ml-sm-auto col-lg-10 px-4">
                     <div>
-                        <h id="main_title">欢迎您登陆管理系统</h>
-                        <div>
-                            <ul id="info_list">
-                                你好呀，管理员！
-                            </ul>
-                        </div>
+                        {% block main %}
+                        
+                        {% endblock %}
                     </div>
                 </main>
             </div>
