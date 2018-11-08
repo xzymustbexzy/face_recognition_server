@@ -53,8 +53,8 @@ def goto_login():
 @app.route('/faceService/backStage/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
-        render_template('static', filename='login.html')
-    
+        return render_template('login.html')
+
     # 登陆请求
     id = request.form.get('id')
     pwd = request.form.get('pwd')
@@ -84,10 +84,11 @@ def admin():
 def parameters():
     parameters = Param('./faceService/parameters.json')
     if request.method == 'GET':
-        return render_template('parameters.html', parameters=parameters.getParameters)
+        print(parameters.getParameters())
+        return render_template('parameters.html', parameters=parameters.getParameters())
     # 设置参数
     request.form.get('parameters')
-    
+
 
 
 
@@ -183,7 +184,17 @@ class Param:
         with open(self.filepath, "r") as f:
             self.para_dict = json.load(f)
     def getParameters(self):
-        return self.para_dic
+        para_list = []
+        name_map = {'check_image_root':'checktupian',
+                    'login_image_root':'logintupian',
+                    'tolerance':'rongrendu'
+                    }
+        for key in self.para_dict:
+            parameter = {}
+            parameter['name'] = name_map[key]
+            parameter['value'] = self.para_dict[key]
+            para_list.append(parameter)
+        return para_list
     def setParameters(self, parameters):
         self.para_dic = parameters
         with open(self.filepath, "w") as f:
