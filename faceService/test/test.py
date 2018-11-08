@@ -25,6 +25,7 @@ def rotational_test(logined_uid_list, file_folder):
             assert (code == 0) # 断言认证成功
             print('提交成功，开始验证。。。。')
             simResult = parse_result(res, 'simResult', inside_data=True)
+            print('upload:uid=' + str(logined_uid))
             if (image.split('_')[0] == logined_uid):
                 assert (simResult == '1')
             else:
