@@ -4,10 +4,22 @@
 
 <meta charset="UTF-8">
     <form method="POST">
-
-        {% for parameter in parameters %}
-        <h>{{parameter.name}}:</h><input type="text" value="{{parameter.value}}" name="{{parameter.no}}"></input><br/>
-        {% endfor %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>参数名</th>
+                    <th>参数值</th>
+                    <th>备注</th>
+                </tr>
+            </thead>    
+            <tbody>
+                {% for parameter in parameters %}
+                <td>{{parameter.name}}:</td>
+                <td><input type="text" value="{{parameter.value}}" name="{{parameter.no}}"></input></td>
+                <td>无</td>
+                {% endfor %}
+            </tbody>
+        </table>
         <input type="submit" value="确认修改">
         <a>重启系统后参数配置才会生效</a>
     </form>    
