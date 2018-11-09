@@ -4,8 +4,9 @@
 
 <meta charset="UTF-8">
     <form method="POST">
+
         {% for parameter in parameters %}
-        <h>{{parameter.name}}:</h><input type="text" value="{{parameter.value}}"></input><br/>
+        <h>{{parameter.name}}:</h><input type="text" value="{{parameter.value}}" name="{{parameter.no}}"></input><br/>
         {% endfor %}
         <input type="submit" value="确认修改">
     </form>    

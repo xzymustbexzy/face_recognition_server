@@ -87,8 +87,16 @@ def parameters():
         print(parameters.getParameters())
         return render_template('parameters.html', parameters=parameters.getParameters())
     # 设置参数
-    request.form.get('parameters')
-
+    i = 0
+    param_list = []
+    while True:
+        param = request.form.get('param' + str(i))
+        i = i + 1
+        if param is None:
+            break
+        param_list.append(param)
+    parameters.setParameters(param_list)
+    return render_template('parameters.html', parameters=parameters.getParameters())
 
 
 
@@ -152,7 +160,7 @@ def varify_faces_in_image(user_id, uid_type, name, channel, image_path, check_ti
     if len(unknown_face_encodings) > 0:
         face_distance = face_recognition.face_distance([known_face_encodings], unknown_face_encodings[0])[0]
         # 对比上传的图片和数据库内的图片是否相同
-        data['sim'] = 1 / face_distance
+        data['sim'] = 1 - face_distance
         data['simResult'] = '1' if face_distance < tolerance else '0'
         passed = True if face_distance < tolerance else False
     else:
@@ -189,13 +197,19 @@ class Param:
                     'login_image_root':'logintupian',
                     'tolerance':'rongrendu'
                     }
+        i = 0
         for key in self.para_dict:
             parameter = {}
             parameter['name'] = name_map[key]
             parameter['value'] = self.para_dict[key]
+            parameter['no'] = 'param' + str(i)
+            i = i + 1
             para_list.append(parameter)
         return para_list
-    def setParameters(self, parameters):
-        self.para_dic = parameters
+    def setParameters(self, param_list):
+        i = 0
+        for key in self.para_dict:
+            self.para_dict[key] = param_list[i]
+            i = i + 1
         with open(self.filepath, "w") as f:
-            json.dump(self.para_dic, f)
+            json.dump(self.para_dict, f)
