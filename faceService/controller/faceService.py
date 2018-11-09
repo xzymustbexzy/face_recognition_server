@@ -193,9 +193,9 @@ class Param:
             self.para_dict = json.load(f)
     def getParameters(self):
         para_list = []
-        name_map = {'check_image_root':'checktupian',
-                    'login_image_root':'logintupian',
-                    'tolerance':'rongrendu'
+        name_map = {'check_image_root':'验证人脸照片存放路径',
+                    'login_image_root':'注册人脸照片存放路径',
+                    'tolerance':'容忍度'
                     }
         i = 0
         for key in self.para_dict:
