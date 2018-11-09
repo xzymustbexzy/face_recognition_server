@@ -99,6 +99,11 @@ def parameters():
     return render_template('parameters.html', parameters=parameters.getParameters())
 
 
+@app.route('/faceService/backStage/admin/loginedFace', methods=['GET'])
+def loginedFace():
+    persons = []
+    print(Face.query.all())
+    return render_template('loginedFace.html', persons=persons)
 
 
 '''------------------------------API------------------------------------------'''
