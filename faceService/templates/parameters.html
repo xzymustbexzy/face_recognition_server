@@ -14,9 +14,11 @@
             </thead>    
             <tbody>
                 {% for parameter in parameters %}
-                <td>{{parameter.name}}:</td>
-                <td><input type="text" value="{{parameter.value}}" name="{{parameter.no}}"></input></td>
-                <td>无</td>
+                <tr>
+                    <td>{{parameter.name}}</td>
+                    <td><input type="text" value="{{parameter.value}}" name="{{parameter.no}}"></input></td>
+                    <td>无</td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
