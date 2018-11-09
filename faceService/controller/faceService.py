@@ -3,7 +3,7 @@ from faceService.model.Face import Face
 from faceService.model.Log import Log
 from faceService.exceptions import *
 import face_recognition
-from flask import Flask, jsonify, request, redirect, render_template
+from flask import Flask, jsonify, request, redirect, render_template, url_for
 import base64
 import datetime
 from faceService import NUMBER_OF_FEATURE, tolerance, login_image_root, check_image_root
@@ -227,3 +227,6 @@ class Param:
             i = i + 1
         with open(self.filepath, "w") as f:
             json.dump(self.para_dict, f)
+
+
+
