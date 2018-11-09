@@ -1,1 +1,1 @@
-{"tolerance": "0.6", "login_image_root": "faceService/image/", "check_image_root": "faceService/image/"}
+{"tolerance": 0.6, "login_image_root": "faceService/static/images/", "check_image_root": "faceService/static/images/"}

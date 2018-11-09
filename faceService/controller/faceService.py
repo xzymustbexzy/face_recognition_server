@@ -110,7 +110,8 @@ def loginedFace():
        person['name'] = p.name
        person['channel'] = p.channel
        person['login_time'] = p.login_time
-       person['path'] = p.img_path
+       root_image_path = 'faceService/static/images/'
+       person['path'] = p.img_path[len(root_image_path):]
        persons.append(person)
     return render_template('loginedFace.html', persons=persons)
 
@@ -143,7 +144,7 @@ def decode_and_save_img(uid, img, mode):
     image_root = check_image_root if mode == 'check' else login_image_root
     #对图片进行解码并保存
     image = base64.b64decode(img)
-    upload_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    upload_time = datetime.datetime.now().strftime('%Y-%m-%d-%H:%M:%S')
     image_name = uid + '-' + upload_time + '.jpg'
     image_path = image_root + image_name
     image_save = open(image_path, 'wb')

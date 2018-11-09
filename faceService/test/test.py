@@ -20,6 +20,7 @@ def rotational_test(logined_uid_list, file_folder):
     image_name_list = os.listdir(file_folder_path)
     for image in image_name_list: # 文件夹下所有图片
         for logined_uid in logined_uid_list:
+            print('path==' + file_folder + image)
             res = check_person(logined_uid, file_folder + image)
             code = parse_result(res, 'code')
             assert (code == 0) # 断言认证成功
@@ -35,5 +36,7 @@ def rotational_test(logined_uid_list, file_folder):
     print('循环测试通过！')
 
 if __name__ == '__main__':
-    logined_uid_test = batch_login('login_face/') #批量添加人脸
-    rotational_test(logined_uid_test, 'check_face/') #进行循环测试
+    # logined_uid_list = batch_login('login_face/') #批量添加人脸
+    # rotational_test(logined_uid_list, 'check_face/') #进行循环测试
+    for i in range(20):
+        check_person('trump', 'check_face/trump_2.jpg')
