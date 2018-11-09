@@ -1,14 +1,29 @@
 {% extends 'home.html' %}
 
 {% block main %}
-{% for person in persons %}
 <div>
-    <a>{{person.id}},</a>
-    <a>{{person.id_type}},</a>
-    <a>{{person.name}},</a>
-    <a>{{person.channel}},</a>
-    <a>{{person.login_time}}</a>
-    <img src="{{url_for('static', filename='images/'+person.path)}}" width="100" height="100" alt="test"/> 
+    <table class="table">
+        <thead>
+            <tr>
+                <th>用户id</th>
+                <th>id类型</th>
+                <th>用户名</th>
+                <th>上传渠道</th>
+                <th>图片</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for person in persons %}
+            <tr>
+                <td>{{person.id}}</td>
+                <td>{{person.id_type}}</td>
+                <td>{{person.name}},</td>
+                <td>{{person.channel}},</td>
+                <td>{{person.login_time}}</td>
+                <td></td><img src="{{url_for('static', filename='images/'+person.path)}}" width="100" height="100" alt="test"/> </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
-{% endfor %}
 {% endblock %}
