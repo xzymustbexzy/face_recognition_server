@@ -102,7 +102,16 @@ def parameters():
 @app.route('/faceService/backStage/admin/loginedFace', methods=['GET'])
 def loginedFace():
     persons = []
-    print(Face.query.all())
+    person_set = Face.query.all()
+    for p in person_set:
+       person = {}
+       person['id'] = p.uid
+       person['id_type'] = p.uid_type
+       person['name'] = p.name
+       person['channel'] = p.channel
+       person['login_time'] = p.login_time
+       person['path'] = p.img_path
+       persons.append(person)
     return render_template('loginedFace.html', persons=persons)
 
 
