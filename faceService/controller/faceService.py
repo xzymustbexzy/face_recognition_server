@@ -84,7 +84,6 @@ def admin():
 def parameters():
     parameters = Param('./faceService/parameters.json')
     if request.method == 'GET':
-        print(parameters.getParameters())
         return render_template('parameters.html', parameters=parameters.getParameters())
     # 设置参数
     i = 0
