@@ -21,10 +21,53 @@
                 <td>{{person.name}},</td>
                 <td>{{person.channel}},</td>
                 <td>{{person.login_time}}</td>
-                <td></td><img src="{{url_for('static', filename='images/'+person.path)}}" width="180" height="120" alt="test"/> </td>
+                <!--<td></td><img src="{{url_for('static', filename='images/'+person.path)}}" width="180" height="120" alt="test"/> </td>-->
+                <td><a href="#" onmouseover="displayImg()" onmouseout="vanishImg()" onmousemove="displayImg()" >
+                    注册照片
+                </a></td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
-{% endblock %}
+<style>
+    a{
+        float: left;
+        margin-left:30px;
+        margin-top: 50px;
+    }
+    img{
+        width:400px;
+        border:black 1px solid;
+    }
+    #image{
+        position: absolute;
+        display: none;
+    }
+</style>
+
+<script>
+    //显示图片
+    function displayImg() {
+        var img = document.getElementById("image");
+
+        var x = event.clientX + document.body.scrollLeft + 20;
+        var y = event.clientY + document.body.scrollTop - 5; 
+
+        img.style.left = x + "px";
+        img.style.top = y + "px";
+        img.style.display = "block";
+    }
+
+    //图片消失
+    function vanishImg(){
+        var img = document.getElementById("image");
+        img.style.display = "none";
+    }
+</script>
+
+
+<div id="image">
+    <img src="XXXX.png" alt="image"><!--如果加上AJAX就可以根据不同的超链接来显示不同的图片了-->
+</div>
+{% endblock %} 
