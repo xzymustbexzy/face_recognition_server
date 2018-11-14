@@ -1,18 +1,27 @@
 function setParameters()
 {
     $.ajax({
-        "url":"./", 
+        "url":"./",
         "type":"post",
         "data":{"resource":"parameters", "action":"get"},
         success:function(result){
             $("#main_body").html(result);
         }
-    })
+    });
 }
 
 function loginedFace()
 {
-    $(window).attr('location','./loginedFace');
+  alert("hello world")
+    $.ajax({
+        "url":"./",
+        "type":"post",
+        "data":{"resource":"loginedFace", "action":"get"},
+        success:function(result) {
+
+            $("#main_body").html(result);
+        }
+    });
 }
 
 function chekcLog()

@@ -75,13 +75,15 @@ def login():
         账号密码错误
         '''
 
-@app.route('/faceService/backStage/admin/', methods=['GET'])
+@app.route('/faceService/backStage/admin/', methods=['GET', 'POST'])
 def admin():
     resource = request.form.get('resource')
     if resource is None:
         return render_template('welcome.html')
     elif resource == 'parameters':
         return parameters()
+    elif resource == 'loginedFace':
+        return loginedFace()
 
 # 各个管理功能模块
 def parameters():
@@ -102,7 +104,6 @@ def parameters():
     return render_template('parameters.html', parameters=parameters.getParameters())
 
 
-@app.route('/faceService/backStage/admin/loginedFace', methods=['GET'])
 def loginedFace():
     persons = []
     person_set = Face.query.all()
