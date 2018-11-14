@@ -77,13 +77,17 @@ def login():
 
 @app.route('/faceService/backStage/admin/', methods=['GET'])
 def admin():
-    return render_template('welcome.html')
+    resource = request.form.get('resource')
+    if resource is None:
+        return render_template('welcome.html')
+    elif resource == 'parameters':
+        return parameters()
 
 # 各个管理功能模块
-@app.route('/faceService/backStage/admin/parameters', methods=['GET', 'POST'])
 def parameters():
     parameters = Param('./faceService/parameters.json')
-    if request.method == 'GET':
+    action = request.form.get('action')
+    if action == 'get':
         return render_template('parameters.html', parameters=parameters.getParameters())
     # 设置参数
     i = 0

@@ -1,6 +1,13 @@
 function setParameters()
 {
-    $(window).attr('location','./parameters');
+    $.ajax({
+        "url":"./", 
+        "type":"post",
+        "data":{"resource":"parameters", "action":"get"},
+        success:function(result){
+            $("#main_body").html(result);
+        }
+    })
 }
 
 function loginedFace()
