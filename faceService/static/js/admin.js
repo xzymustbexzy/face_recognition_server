@@ -43,10 +43,12 @@ function setParameters()
         data[this.name] = this.value;
     });
 
+    alert("Modify parameters successfully!")
+
     $.ajax({
         "url":"./",
         "type":"post",
-        "data":JSON.stringify(data),
+        "data":data,
         success:function(result) {
             $("#main_body").html(result)
         }
