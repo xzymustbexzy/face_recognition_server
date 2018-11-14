@@ -1,4 +1,4 @@
-function setParameters()
+function parameters()
 {
     $.ajax({
         "url":"./",
@@ -12,7 +12,6 @@ function setParameters()
 
 function loginedFace()
 {
-  alert("hello world")
     $.ajax({
         "url":"./",
         "type":"post",
@@ -32,4 +31,20 @@ function chekcLog()
 function image()
 {
     alert('image');
+}
+
+function setParameters()
+{
+    var data = {};
+    data["resource"] = "parameters";
+    data["action"] = "post";
+
+    $.ajax({
+        "url":"./",
+        "type":"post",
+        "data":data,
+        success:function(result) {
+            $("#main_body").html(result)
+        }
+    });
 }

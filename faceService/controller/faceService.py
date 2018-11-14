@@ -77,6 +77,8 @@ def login():
 
 @app.route('/faceService/backStage/admin/', methods=['GET', 'POST'])
 def admin():
+    if request.method == 'GET':
+        return render_template('welcome.html')
     resource = request.form.get('resource')
     if resource is None:
         return render_template('welcome.html')
