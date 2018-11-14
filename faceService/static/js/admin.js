@@ -38,11 +38,15 @@ function setParameters()
     var data = {};
     data["resource"] = "parameters";
     data["action"] = "post";
+    var t = $('form').serializeArray();
+    $.each(t, function() {
+        data[this.name] = this.value;
+    });
 
     $.ajax({
         "url":"./",
         "type":"post",
-        "data":data,
+        "data":JSON.stringify(data),
         success:function(result) {
             $("#main_body").html(result)
         }
