@@ -59,14 +59,13 @@ function setParameters()
 //显示图片
 function displayImg(img_id) {
     var event =  window.event || arguments.callee.caller.arguments[0];//兼容火狐浏览器
-
     img_id = "img_" + img_id;
     var img = document.getElementById(img_id);
-    var x = event.clientX + document.body.scrollLeft + 20;
-    var y = event.clientY + document.body.scrollTop - 5;
-    img.style.left = x + "px";
+    var x = /*event.clientX*/ + document.body.scrollLeft + 20;
+    var y = /*event.clientY*/ + document.body.scrollTop - 5;
+    img.style.right = x + "px";
     img.style.top = y + "px";
-    img.style.display = "none";
+    img.style.display = "block";
 }
 
 //图片消失
