@@ -18,14 +18,14 @@
                 <td>{{person.name}},</td>
                 <td>{{person.channel}},</td>
                 <td>{{person.login_time}}</td>
-                <td><a href="#" onmouseover="displayImg('{{person.id}}')" onmouseout="vanishImg()" onmousemove="displayImg()" 
-                    style="float: left; margin-left:30px; margin-top: 50px;">
+                <td><a href="#" onmouseover="displayImg('{{person.id}}')" onmouseout="vanishImg('{{person.id}}')" onmousemove="displayImg()" 
+                 aaaa   style="float: left; margin-left:30px; margin-top: 50px;">
                     注册照片
                 </a></td>
                 <!--<td></td><img src="{{url_for('static', filename='images/'+person.path)}}" width="180" height="120" alt="test"/> </td>-->
-                <div id="img_"+"{{person.id}}">
+                <div id="img_{{person.id}}" style="position: absolute; display: none">
                     <img src="{{url_for('static', filename='images/'+person.path)}}" alt="图片正在加载中..." 
-                    style="width:400px; border:black 1px solid; position: absolute; display: none;">
+                    style="width:400px; border:black 1px solid;">
                 </div>
             </tr>
             {% endfor %}

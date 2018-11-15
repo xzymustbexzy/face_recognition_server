@@ -62,7 +62,7 @@ function displayImg(img_id) {
     var img = document.getElementById(img_id);
 
     var x = event.clientX + document.body.scrollLeft + 20;
-    var y = event.clientY + document.body.scrollTop - 5; 
+    var y = event.clientY + document.body.scrollTop - 5;
 
     img.style.left = x + "px";
     img.style.top = y + "px";
@@ -70,7 +70,7 @@ function displayImg(img_id) {
 }
 
 //图片消失
-function vanishImg(){
-    var img = document.getElementById("image");
+function vanishImg(img_id){
+    var img = document.getElementById(img_id);
     img.style.display = "none";
 }
