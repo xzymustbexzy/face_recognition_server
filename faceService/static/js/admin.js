@@ -60,17 +60,17 @@ function setParameters()
 function displayImg(img_id) {
     img_id = "img_" + img_id;
     var img = document.getElementById(img_id);
-
+  alert(img)
     var x = event.clientX + document.body.scrollLeft + 20;
     var y = event.clientY + document.body.scrollTop - 5;
-
     img.style.left = x + "px";
     img.style.top = y + "px";
-    img.style.display = "block";
+    img.style.display = "none";
 }
 
 //图片消失
 function vanishImg(img_id){
+    img_id = "img_" + img_id;
     var img = document.getElementById(img_id);
     img.style.display = "none";
 }
