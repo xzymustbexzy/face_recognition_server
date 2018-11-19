@@ -74,3 +74,27 @@ function vanishImg(img_id){
     var img = document.getElementById(img_id);
     img.style.display = "none";
 }
+
+
+var page_num = 1;
+function firstPage() {
+
+}
+
+function previousPage() {
+    turnToPage(page_num - 1);
+}
+
+function nextPage() {
+    turnToPage(page_num + 1);
+}
+
+function lastPage() {
+    
+}
+
+function turnToPage(page_num_to_set) {
+    var page_num_to_set = page_num_to_set ? page_num_to_set : document.getElementById("page_to_set").value;
+    page_num = page_num_to_set;
+    alert(page_num)
+}
