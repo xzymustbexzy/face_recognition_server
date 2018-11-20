@@ -21,7 +21,20 @@ function loginedFace()
             $("#main_body").html(result);
         }
     });
-    total_page_num = parseInt($("#total_page_num").value);
+
+    var init_total_page_num() {
+      var total_page_num_label = document.getElementById("total_page_num");
+      if (!total_page_num_label) {
+        setTimeout(init_total_page_num, 100);
+      }
+      else {
+        total_page_num = parseInt(document.getElementById("total_page_num").value);
+      }
+    }
+
+    init_total_page_num();
+    alert("total_page_num");
+    alert(total_page_num);
 }
 
 function chekcLog()
@@ -107,6 +120,7 @@ function turnToPage(page_num_to_set) {
     var page_num_to_set = page_num_to_set ? page_num_to_set : document.getElementById("page_to_set").value;
     page_num = page_num_to_set;
     alert(page_num);
+    alert(total_page_num)
     setNearPages();
 }
 

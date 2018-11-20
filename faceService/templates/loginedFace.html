@@ -1,5 +1,5 @@
-<div>
-    <table class="table" style="height:90%">
+<div style="height:100%">
+    <table class="table">
         <thead>
             <tr>
                 <th>用户id</th>
@@ -32,11 +32,12 @@
             {% endfor %}
         </tbody>
     </table>
-    <div id="page_bar">
+    <footer class="navbar-fixed-bottom">
+    <div id="page_bar" class="container">
         <a href="javascript:firstPage()">首页</a>
         <a href="javascript:previousPage()"><上一页</a>
-        <div id="near_pages">
-        </div>
+        <span id="near_pages">
+        </span>
         <a href="javascript:nextPage()">下一页></a>
         <a href="javascript:lastPage()">尾页</a>
         <lable>总共</lable>
@@ -45,4 +46,5 @@
         <input type="text" id="page_to_set" value="">
         <input type="button" value="Go" href="javascript:turnToPage()">
     </div>
+    </footer>
 </div>

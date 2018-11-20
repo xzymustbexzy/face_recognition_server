@@ -19,6 +19,7 @@ with open('faceService/parameters.json', 'r') as parameters:
 
 '''parameters variable'''
 NUMBER_OF_FEATURE = 128 #特征维度个数，是个常数，由算法决定
+NUMBER_OF_PERSON_PER_PAGE = 12
 tolerance = parameters_dic['tolerance']
 login_image_root = parameters_dic['login_image_root']
 check_image_root = parameters_dic['check_image_root']

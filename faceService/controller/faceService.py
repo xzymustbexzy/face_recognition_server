@@ -4,9 +4,9 @@ from faceService.model.Log import Log
 from faceService.exceptions import *
 import face_recognition
 from flask import Flask, jsonify, request, redirect, render_template, url_for
-import base64
+import base64, math
 import datetime
-from faceService import NUMBER_OF_FEATURE, tolerance, login_image_root, check_image_root
+from faceService import NUMBER_OF_FEATURE, NUMBER_OF_PERSON_PER_PAGE, tolerance, login_image_root, check_image_root
 import json
 
 # 接收到人脸注册请求
@@ -110,6 +110,7 @@ def loginedFace():
     persons = []
     person_set = Face.query.all()
     person_num = len(person_set)
+    page_num = math.floor(person_num/NUMBER_OF_PERSON_PER_PAGE) + 1
     for p in person_set:
        person = {}
        person['id'] = p.uid
@@ -120,7 +121,7 @@ def loginedFace():
        root_image_path = 'faceService/static/images/'
        person['path'] = p.img_path[len(root_image_path):]
        persons.append(person)
-    return render_template('loginedFace.html', persons=persons, total_page_num=person_num/10)
+    return render_template('loginedFace.html', persons=persons,total_page_num=page_num)
 
 
 '''------------------------------API------------------------------------------'''
