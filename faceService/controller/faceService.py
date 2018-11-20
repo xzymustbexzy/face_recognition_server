@@ -85,7 +85,8 @@ def admin():
     elif resource == 'parameters':
         return parameters()
     elif resource == 'loginedFace':
-        return loginedFace()
+        page_id = request.form.get('page_id')
+        return loginedFace(page_id)
 
 # 各个管理功能模块
 def parameters():
@@ -106,21 +107,23 @@ def parameters():
     return render_template('parameters.html', parameters=parameters.getParameters())
 
 
-def loginedFace():
+def loginedFace(page_id):
     persons = []
     person_set = Face.query.all()
     person_num = len(person_set)
     page_num = math.floor(person_num/NUMBER_OF_PERSON_PER_PAGE) + 1
-    for p in person_set:
-       person = {}
-       person['id'] = p.uid
-       person['id_type'] = p.uid_type
-       person['name'] = p.name
-       person['channel'] = p.channel
-       person['login_time'] = p.login_time
-       root_image_path = 'faceService/static/images/'
-       person['path'] = p.img_path[len(root_image_path):]
-       persons.append(person)
+    page_id = int(page_id)
+    for i in range((page_id - 1) * NUMBER_OF_PERSON_PER_PAGE, min(page_id * NUMBER_OF_PERSON_PER_PAGE, person_num)):
+        p = person_set[i]
+        person = {}
+        person['id'] = p.uid
+        person['id_type'] = p.uid_type
+        person['name'] = p.name
+        person['channel'] = p.channel
+        person['login_time'] = p.login_time
+        root_image_path = 'faceService/static/images/'
+        person['path'] = p.img_path[len(root_image_path):]
+        persons.append(person)
     return render_template('loginedFace.html', persons=persons,total_page_num=page_num)
 
 

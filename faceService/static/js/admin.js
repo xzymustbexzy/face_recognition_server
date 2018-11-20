@@ -10,14 +10,14 @@ function parameters()
     });
 }
 
-function loginedFace()
+function loginedFace(page_id)
 {
+    var page_id = page_id ? page_id : 1;
     $.ajax({
         "url":"./",
         "type":"post",
-        "data":{"resource":"loginedFace", "action":"get"},
+        "data":{"resource":"loginedFace", "action":"get", "page_id":page_id},
         success:function(result) {
-
             $("#main_body").html(result);
         }
     });
@@ -119,7 +119,7 @@ function turnToPage(page_num_to_set) {
     var page_num_to_set = page_num_to_set ? page_num_to_set : document.getElementById("page_to_set").value;
     page_num = page_num_to_set;
     alert(page_num);
-    alert(total_page_num)
+    loginedFace(page_num_to_set);
     setNearPages();
 }
 
