@@ -109,6 +109,7 @@ def parameters():
 def loginedFace():
     persons = []
     person_set = Face.query.all()
+    person_num = len(person_set)
     for p in person_set:
        person = {}
        person['id'] = p.uid
@@ -119,7 +120,7 @@ def loginedFace():
        root_image_path = 'faceService/static/images/'
        person['path'] = p.img_path[len(root_image_path):]
        persons.append(person)
-    return render_template('loginedFace.html', persons=persons)
+    return render_template('loginedFace.html', persons=persons, total_page_num=person_num/10)
 
 
 '''------------------------------API------------------------------------------'''

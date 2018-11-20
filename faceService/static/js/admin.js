@@ -21,6 +21,7 @@ function loginedFace()
             $("#main_body").html(result);
         }
     });
+    total_page_num = parseInt($("#total_page_num").value);
 }
 
 function chekcLog()
@@ -77,24 +78,50 @@ function vanishImg(img_id){
 
 
 var page_num = 1;
+var total_page_num = 0;
 function firstPage() {
-
+    turnToPage(1);
 }
 
 function previousPage() {
+    if (page_num == 1) {
+        alert("已经到第一个了！");
+        return;
+    }
     turnToPage(page_num - 1);
 }
 
 function nextPage() {
+    if (page_num == total_page_num) {
+        alert("已经到最后一页了！");
+        return;
+    }
     turnToPage(page_num + 1);
 }
 
 function lastPage() {
-    
+    turnToPage(total_page_num);
 }
 
 function turnToPage(page_num_to_set) {
     var page_num_to_set = page_num_to_set ? page_num_to_set : document.getElementById("page_to_set").value;
     page_num = page_num_to_set;
-    alert(page_num)
+    alert(page_num);
+    setNearPages();
+}
+
+function setNearPages() {
+    var near_pages = new Array(5);
+    for (var i = -2; page_num + i > 0 && i < 3; i++) {
+        near_pages.push(page_num + i);
+    }
+    var near_page_html = "";
+    for (var page in near_pages) {
+        near_page_html += "<a";
+        near_page_html += " href=\"javascript:turnToPage('" + page.toString() + "')\"";
+        near_page_html += ">";
+        near_page_html += page.toString()
+        near_page_html += "</a>";
+    }
+    $("#near_pages").html(near_page_html);
 }
