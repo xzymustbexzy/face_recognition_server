@@ -22,19 +22,18 @@ function loginedFace()
         }
     });
 
-    var init_total_page_num() {
+    var init_total_page_num = function() {
       var total_page_num_label = document.getElementById("total_page_num");
-      if (!total_page_num_label) {
+      if (total_page_num_label == null || total_page_num_label == undefined) {
         setTimeout(init_total_page_num, 100);
       }
       else {
-        total_page_num = parseInt(document.getElementById("total_page_num").value);
+        total_page_num = parseInt(total_page_num_label.innerHTML);
       }
     }
 
+
     init_total_page_num();
-    alert("total_page_num");
-    alert(total_page_num);
 }
 
 function chekcLog()
