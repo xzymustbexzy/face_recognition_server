@@ -134,7 +134,7 @@ def checkLog(page_id):
     logs = []
     log_set = Log.query.all()
     log_num = len(log_set)
-    log_num =  math.floor(log_num/NUMBER_OF_PERSON_PER_PAGE) + 1
+    page_num = math.floor(log_num/NUMBER_OF_PERSON_PER_PAGE) + 1
     page_id = int(page_id)
     for i in range((page_id - 1) * NUMBER_OF_PERSON_PER_PAGE, min(page_id * NUMBER_OF_PERSON_PER_PAGE, log_num)):
         L = log_set[i]
@@ -151,7 +151,7 @@ def checkLog(page_id):
         log['path'] = L.img_path[len(root_image_path):]
         logs.append(log)
 
-    return render_template('checkLog.html', logs=logs)
+    return render_template('checkLog.html', logs=logs, total_page_num=page_num)
 
 '''------------------------------API------------------------------------------'''
 def get_data():

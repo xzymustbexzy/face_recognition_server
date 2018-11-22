@@ -24,9 +24,9 @@
                 <td>{{log.check_time}}</td>
                 <td>{{log.sim}}</td>
                 <td>{{log.result}}</td>
-                <td><a href="#" onmouseover="displayImg('{{person.id}}')"
-                                onmouseout="vanishImg('{{person.id}}')"
-                                onmousemove="displayImg('{{person.id}}')" 
+                <td><a href="#" onmouseover="displayImg('{{log.id}}')"
+                                onmouseout="vanishImg('{{log.id}}')"
+                                onmousemove="displayImg('{{log.id}}')" 
                 style="float: center; margin-left:5px; margin-top: 5px;">
                     注册照片
                 </a></td>
@@ -51,6 +51,7 @@
         <label>页</label>
         <input type="text" id="page_to_set" value="">
         <input type="button" value="Go" href="javascript:turnToPage()">
+        <input type="hidden" id="witch_module" value="checkLog">
     </div>
     </footer>
 </div>
