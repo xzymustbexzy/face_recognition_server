@@ -1,1 +1,1 @@
-{"sim_threshold": "0.6", "login_image_root": "faceService/static/images/", "check_image_root": "faceService/static/images/", "save_img_option":1}
+{"sim_threshold": "0.4", "login_image_root": "faceService/static/images/", "check_image_root": "faceService/static/images/", "save_img_option": "1"}
