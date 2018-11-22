@@ -36,9 +36,17 @@ function loginedFace(page_id)
     init_total_page_num();
 }
 
-function chekcLog()
+function chekcLog(page_id)
 {
-    alert('checkLog');
+    var page_id = page_id ? page_id : 1;
+    $.ajax({
+        "url":"./",
+        "type":"post",
+        "data":{"resource":"checkLog", "action":"get", "page_id":page_id},
+        success:function(result) {
+            $("#main_body").html(result);
+        }
+    });
 }
 
 function image()

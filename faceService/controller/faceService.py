@@ -87,6 +87,9 @@ def admin():
     elif resource == 'loginedFace':
         page_id = request.form.get('page_id')
         return loginedFace(page_id)
+    elif resource == 'checkLog':
+        page_id = request.form.get('page_id')
+        return checkLog(page_id)
 
 # 各个管理功能模块
 def parameters():
@@ -126,6 +129,29 @@ def loginedFace(page_id):
         persons.append(person)
     return render_template('loginedFace.html', persons=persons,total_page_num=page_num)
 
+
+def checkLog(page_id):
+    logs = []
+    log_set = Log.query.all()
+    log_num = len(log_set)
+    log_num =  math.floor(log_num/NUMBER_OF_PERSON_PER_PAGE) + 1
+    page_id = int(page_id)
+    for i in range((page_id - 1) * NUMBER_OF_PERSON_PER_PAGE, min(page_id * NUMBER_OF_PERSON_PER_PAGE, log_num)):
+        L = log_set[i]
+        log = {}
+        log['num'] = L.num
+        log['id'] = L.uid
+        log['id_type'] = L.uid_type
+        log['name'] = L.name
+        log['channel'] = L.channel
+        log['check_time'] = L.check_time
+        log['sim'] = L.sim
+        log['result'] = L.result
+        root_image_path = 'faceService/static/images/'
+        log['path'] = L.img_path[len(root_image_path):]
+        logs.append(log)
+
+    return render_template('checkLog.html', logs=logs)
 
 '''------------------------------API------------------------------------------'''
 def get_data():
