@@ -36,7 +36,7 @@ def rotational_test(logined_uid_list, file_folder):
     print('循环测试通过！')
 
 if __name__ == '__main__':
-    # logined_uid_list = batch_login('login_face/') #批量添加人脸
+    logined_uid_list = batch_login('login_face/') #批量添加人脸
     # rotational_test(logined_uid_list, 'check_face/') #进行循环测试
-    for i in range(20):
-        check_person('trump', 'check_face/trump_2.jpg')
+    #for i in range(20):
+    #    check_person('trump', 'check_face/trump_2.jpg')

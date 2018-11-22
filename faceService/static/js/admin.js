@@ -118,14 +118,15 @@ function lastPage() {
 function turnToPage(page_num_to_set) {
     var page_num_to_set = page_num_to_set ? page_num_to_set : document.getElementById("page_to_set").value;
     page_num = page_num_to_set;
-    alert(page_num);
     loginedFace(page_num_to_set);
     setNearPages();
 }
 
 function setNearPages() {
     var near_pages = new Array(5);
-    for (var i = -2; page_num + i > 0 && i < 3; i++) {
+    for (var i = -2; i < 3; i++) {
+        if (i + page_num < 1)
+            continue;
         near_pages.push(page_num + i);
     }
     var near_page_html = "";
@@ -133,7 +134,7 @@ function setNearPages() {
         near_page_html += "<a";
         near_page_html += " href=\"javascript:turnToPage('" + page.toString() + "')\"";
         near_page_html += ">";
-        near_page_html += page.toString()
+        near_page_html += (" " + page.toString() + " ");
         near_page_html += "</a>";
     }
     $("#near_pages").html(near_page_html);
