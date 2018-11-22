@@ -185,7 +185,7 @@ def decode_and_save_img(uid, img, mode):
     upload_time = datetime.datetime.now().strftime('%Y-%m-%d-%H:%M:%S')
     image_name = uid + '-' + upload_time + '.jpg'
     image_path = image_root + image_name
-    if save_img_option == 1:
+    if save_img_option == '1':
         image_save = open(image_path, 'wb')
         image_save.write(image)
     return image_path, upload_time
@@ -252,9 +252,9 @@ class Param:
                     'sim_threshold':'相似度阈值',
                     'save_img_option':'人脸照片存储选项'
                     }
-        comments = ['请将照片存放到 /faceService/static/ 目录下，否则将无法读取', 
-                    '请将照片存放到 /faceService/static/ 目录下，否则将无法读取', 
-                    '若系统判定相似度小于该值，则人脸验证不通过，否则通过。\n系统默认值为0.4', 
+        comments = ['请将照片存放到 /faceService/static/ 目录下，否则将无法读取',
+                    '请将照片存放到 /faceService/static/ 目录下，否则将无法读取',
+                    '若系统判定相似度小于该值，则人脸验证不通过，否则通过。\n系统默认值为0.4',
                     '图片存储选项是一个整数，具体选项含义如下：\n0、不存储\n1、验证（或注册）时存储\n2、验证（或注册）时先放入存储队列，系统在空闲时会对存储队列的照片进行存储\n4、待扩展'
                     ]
         i = 0
