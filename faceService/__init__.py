@@ -20,9 +20,10 @@ with open('faceService/parameters.json', 'r') as parameters:
 '''parameters variable'''
 NUMBER_OF_FEATURE = 128 #特征维度个数，是个常数，由算法决定
 NUMBER_OF_PERSON_PER_PAGE = 12
-tolerance = parameters_dic['tolerance']
+tolerance = 1 - parameters_dic['sim_shreshold']
 login_image_root = parameters_dic['login_image_root']
 check_image_root = parameters_dic['check_image_root']
+save_img_option = parameters_dic['save_img_option'] # 0表示不存，1表示存，2表示暂时放入存出队列，后面再存入磁盘
 
 #创建数据库对象
 db = SQLAlchemy(app)

@@ -96,7 +96,7 @@ function firstPage() {
 
 function previousPage() {
     if (page_num == 1) {
-        alert("已经到第一个了！");
+        alert("已经到第一页了！");
         return;
     }
     turnToPage(page_num - 1);

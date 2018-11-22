@@ -6,7 +6,7 @@ import face_recognition
 from flask import Flask, jsonify, request, redirect, render_template, url_for
 import base64, math
 import datetime
-from faceService import NUMBER_OF_FEATURE, NUMBER_OF_PERSON_PER_PAGE, tolerance, login_image_root, check_image_root
+from faceService import NUMBER_OF_FEATURE, NUMBER_OF_PERSON_PER_PAGE, tolerance, login_image_root, check_image_root, save_img_option
 import json
 
 # 接收到人脸注册请求
@@ -184,8 +184,9 @@ def decode_and_save_img(uid, img, mode):
     upload_time = datetime.datetime.now().strftime('%Y-%m-%d-%H:%M:%S')
     image_name = uid + '-' + upload_time + '.jpg'
     image_path = image_root + image_name
-    image_save = open(image_path, 'wb')
-    image_save.write(image)
+    if save_img_option == 1:
+        image_save = open(image_path, 'wb')
+        image_save.write(image)
     return image_path, upload_time
 
 
@@ -247,14 +248,21 @@ class Param:
         para_list = []
         name_map = {'check_image_root':'验证人脸照片存放路径',
                     'login_image_root':'注册人脸照片存放路径',
-                    'tolerance':'容忍度'
+                    'sim_threshold':'相似度阈值',
+                    'save_img_option':'人脸照片存储选项'
                     }
+        comments = ['请将照片存放到 /faceService/static/ 目录下，否则将无法读取', 
+                    '请将照片存放到 /faceService/static/ 目录下，否则将无法读取', 
+                    '若系统判定相似度小于该值，则人脸验证不通过，否则通过。\n系统默认值为0.4', 
+                    '图片存储选项是一个整数，具体选项含义如下：\n0、不存储\n1、验证（或注册）时存储\n2、验证（或注册）时先放入存储队列，系统在空闲时会对存储队列的照片进行存储\n4、待扩展'
+                    ]
         i = 0
         for key in self.para_dict:
             parameter = {}
             parameter['name'] = name_map[key]
             parameter['value'] = self.para_dict[key]
             parameter['no'] = 'param' + str(i)
+            parameter['comment'] = comments[i]
             i = i + 1
             para_list.append(parameter)
         return para_list
@@ -265,6 +273,4 @@ class Param:
             i = i + 1
         with open(self.filepath, "w") as f:
             json.dump(self.para_dict, f)
-
-
 
