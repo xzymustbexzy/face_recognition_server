@@ -148,7 +148,8 @@ def checkLog(page_id):
         log['sim'] = L.sim
         log['result'] = L.result
         root_image_path = 'faceService/static/images/'
-        log['path'] = L.img_path[len(root_image_path):]
+        log['path_in_DB'] = Face.query.filter_by(uid=L.uid).first().img_path[len(root_image_path):]
+        log['path_uploaded'] = L.img_path[len(root_image_path):]
         logs.append(log)
 
     return render_template('checkLog.html', logs=logs, total_page_num=page_num)
