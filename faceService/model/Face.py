@@ -24,7 +24,6 @@ class Face(db.Model):
         self.img_path = img_path
 
     def to_feature_string(self, feature_array):#将特征向量转化为特征字串
-        print('NUMBER_OF_FEATURE=', NUMBER_OF_FEATURE)
         feature_string = ''
         for i in range(NUMBER_OF_FEATURE - 1):
             feature_string += (str(feature_array[i]) + '|')
