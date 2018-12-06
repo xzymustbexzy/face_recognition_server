@@ -31,30 +31,30 @@ def read_img(img_path):
     img.close()
     return img_encoding
 
-def generate_data(uid, img_encoding):
+def generate_data(uid, name, img_encoding):
     data = {}
     data['uid'] = uid
-    data['uid_type'] = 'work id'
-    data['name'] = 'test' + uid
-    data['channel'] = 'for test'
+    data['uid_type'] = '工号'
+    data['name'] = name
+    data['channel'] = '测试程序'
     data['login_time'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     data['img'] = img_encoding
     data = stringnify(data)
     return data
 
 # 模拟注册事件
-def add_face(uid, img_path):
+def add_face(uid, name, img_path):
     img_encoding = read_img(img_path)
     url = ROOT_URL + 'addFaces'
-    data = generate_data(uid, img_encoding)
+    data = generate_data(uid, name, img_encoding)
     res = post(url, data)
     return res
 
 # 模拟验证事件
-def check_person(uid, img_path):
+def check_person(uid, name, img_path):
     img_encoding = read_img(img_path)
     url = ROOT_URL + 'checkPerson'
-    data = generate_data(uid, img_encoding)
+    data = generate_data(uid, name, img_encoding)
     res = post(url, data)
     return res
 
@@ -73,10 +73,10 @@ def test_get():
     print(get(url=ROOT_URL))
 
 def test_login():
-    print(add_face('trump', 'trump.jpg'))
+    print(add_face('000001', 'trump', 'trump.jpg'))
 
 def test_check():
-    print(check_person('trump', 'check_face/trump_3.jpg'))
+    print(check_person('000001', 'trump', 'check_face/trump_3.jpg'))
 
 if __name__ == '__main__':
     test_check()

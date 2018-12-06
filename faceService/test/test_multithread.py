@@ -17,14 +17,13 @@ class login_agent(threading.Thread):
     def multithread_login(self):
         file_folder_path = os.getcwd() + '/' + self.file_folder
         image_name_list = os.listdir(file_folder_path)
-        uid_list = [os.path.splitext(fullname)[0] for fullname in image_name_list]
-        for i in range(len(uid_list)):
-            res = add_face(uid_list[i], self.file_folder + image_name_list[i])
+        name_list = [os.path.splitext(fullname)[0] for fullname in image_name_list]
+        for i in range(len(name_list)):
+            res = add_face(str(self.threadID) + ':' + str(i), name_list[i], self.file_folder + image_name_list[i])
             code = parse_result(res, 'code')
             assert (code == 0) # 断言添加成功
-            print('成功添加用户' + uid_list[i])
-        print('已成功添加' + str(len(uid_list)) + '个用户！')
-        return uid_list
+            print('成功添加用户' + name_list[i])
+        print('已成功添加' + str(len(name_list)) + '个用户！')
 
 if __name__ == '__main__':
     thread0 = login_agent(0, '线程0', 'login_face/batch_01/')
