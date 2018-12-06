@@ -4,7 +4,7 @@ import base64
 import datetime
 
 HOST = 'localhost'
-PORT = '5050'
+PORT = '8000'
 FILE = '/faceService/'
 ROOT_URL = 'http://' + HOST + ':' + PORT + FILE
 

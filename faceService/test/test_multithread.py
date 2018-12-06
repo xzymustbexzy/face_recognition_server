@@ -5,6 +5,7 @@ import threading
 
 class login_agent(threading.Thread):
     def __init__(self, threadID, name, file_folder):
+        threading.Thread.__init__(self)
         self.threadID = threadID
         self.name = name
         self.file_folder = file_folder
@@ -30,6 +31,10 @@ if __name__ == '__main__':
     thread1 = login_agent(1, '线程1', 'login_face/batch_02/')
     thread2 = login_agent(2, '线程2', 'login_face/batch_03/')
     thread3 = login_agent(3, '线程3', 'login_face/batch_04/')
+    thread0.start()
+    thread1.start()
+    thread2.start()
+    thread3.start()
     thread0.join()
     thread1.join()
     thread2.join()
