@@ -7,6 +7,6 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 #session必须要设置key
 SECRET_KEY='A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 # 数据库URL
-SQLALCHEMY_DATABASE_URI = 'mysql://root:profilebook@localhost:3307/faceDB'
+SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:profilebook@localhost:3306/faceDB'
 
 

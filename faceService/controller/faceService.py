@@ -212,7 +212,7 @@ def varify_faces_in_image(user_id, uid_type, name, channel, image_path, check_ti
     passed = False
 
     if len(unknown_face_encodings) > 0:
-        face_distance = face_recognition.face_distance([known_face_encodings], unknown_face_encodings[0])[0]
+        face_distance = float(face_recognition.face_distance([known_face_encodings], unknown_face_encodings[0])[0])
         # 对比上传的图片和数据库内的图片是否相同
         data['sim'] = 1 - face_distance
         data['simResult'] = '1' if face_distance < tolerance else '0'
@@ -221,6 +221,7 @@ def varify_faces_in_image(user_id, uid_type, name, channel, image_path, check_ti
         code = CannotFoundFaceException.code
 
     db.session.add(Log(uid=user_id, uid_type=uid_type, name=name, channel=channel, check_time=check_time, img_path=image_path, sim=data['sim'], result=passed))
+
     db.session.commit()
 
     return code, {'data': data}
